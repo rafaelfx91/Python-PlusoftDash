@@ -19,7 +19,7 @@ def conectar_banco():
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="123",  # Atualize com a sua senha do MySQL
+            password="aaa",  # Atualize com a sua senha do MySQL
             database="campanhas"  # Nome do banco de dados
         )
         return db
@@ -57,15 +57,33 @@ def login():
             cursor.execute(registro_query, (user['cod'], ip, status))
             conn.commit()
             
+            # Banco de dados informações para trazer
+            # nome
+            # email
+            # contato
+            # nivel_acesso
+            #
             # Salvar informações na sessão 
             session['logged_in'] = True 
-            session['nome'] = user['nome'] 
             session['cod_usuario'] = user['cod']
+            session['nome'] = user['nome'] 
+            session['email'] = user['email']
+            session['contato'] = user['contato']
+            session['nivel_acesso'] = user['nivel_acesso']
+            # -- nivel_acesso
+            #0 - Solicitante
+            #1 -
+            #2 - Fabrica
+            #3 -
+            #4 - admin
+            #5 - Dev
+            #
             
             conn.close()
 
             # Redirecionar para a página de home
-            return redirect(url_for('home', nome=user['nome']))
+            #return redirect(url_for('home', nome=user['nome']))
+            return redirect(url_for('home'))
         else:
             return redirect(url_for('index'))  # Redirecionar novamente após mensagem de erro
     except mysql.connector.Error as err:
@@ -81,8 +99,16 @@ def login():
 @app.route('/home') 
 def home(): 
     if 'logged_in' in session and session['logged_in']: 
+        cod = session['cod_usuario'] 
         nome = session['nome'] 
-        return render_template("home.html", nome=nome) 
+        email = session['email'] 
+        contato = session['contato'] 
+        nivel_acesso = session['nivel_acesso'] 
+
+        #formatar o nome para preencher 
+        nome_formatado = f"{cod} - {nome}"
+
+        return render_template("home.html", nome=nome_formatado,email=email,contato=contato,nivel=nivel_acesso ) 
     else: 
         return redirect(url_for('index'))
 
