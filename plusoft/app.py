@@ -19,7 +19,7 @@ def conectar_banco():
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="aaa",  # Atualize com a sua senha do MySQL
+            password="123",  # Atualize com a sua senha do MySQL
             database="campanhas"  # Nome do banco de dados
         )
         return db
@@ -70,14 +70,6 @@ def login():
             session['email'] = user['email']
             session['contato'] = user['contato']
             session['nivel_acesso'] = user['nivel_acesso']
-            # -- nivel_acesso
-            #0 - Solicitante
-            #1 -
-            #2 - Fabrica
-            #3 -
-            #4 - admin
-            #5 - Dev
-            #
             
             conn.close()
 
@@ -108,9 +100,39 @@ def home():
         #formatar o nome para preencher 
         nome_formatado = f"{cod} - {nome}"
 
-        return render_template("home.html", nome=nome_formatado,email=email,contato=contato,nivel=nivel_acesso ) 
+        #valida nivel do usuario
+        niveldesc = retornaNivel(nivel_acesso)
+
+        return render_template("home.html"
+                               ,nome=nome_formatado
+                               ,email=email
+                               ,contato=contato
+                               ,nivel=nivel_acesso 
+                               ,niveldesc = niveldesc) 
     else: 
         return redirect(url_for('index'))
+
+#funcao para ver o nivel do colicitante
+def retornaNivel(acao):
+    if acao == 0:
+        return "Solicitante"
+    elif acao == 2:
+        return "Fabrica"
+    elif acao == 4:
+        return "Administrador"
+    elif acao == 5:
+        return "Desenvolvedor"
+    else:
+        return "Sem definição"
+# -- nivel_acesso
+#0 - Solicitante
+#1 -
+#2 - Fabrica
+#3 
+#4 - admin
+#5 - Dev
+#
+
 
 #roda de loggout
 @app.route('/logout')
