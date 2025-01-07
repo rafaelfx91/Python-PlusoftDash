@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="/templates/css/home.css">
+    <link rel="stylesheet" href="/templates/css/sas.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,11 +38,19 @@
 
     <div class="central-container">
         <div class="user-info">
-            <h2>Informações do Usuário</h2>
-            <p><span>Nome:</span> {{ nome }}</p>
-            <p><span>Email:</span> {{ email }}</p>
-            <p><span>Contato:</span> {{ contato }}</p>
-            <p><span>Nível:</span> {{ niveldesc }}</p>
+            <h2>Pagina SAS</h2>
+            <!-- Formulário para enviar o texto -->
+            <form action="{{ url_for('processar_texto') }}" method="POST">
+                <label for="multiline-input">Digite o nome da OS:</label><br>
+                <textarea id="multiline-input" name="input_text" rows="10" cols="30"></textarea><br><br>
+                <button type="submit">Enviar</button>
+            </form>
+            <br>
+            {% if linhas_processadas %}
+            <h3>Resultado:</h3>
+            <label for="output-text">Resultado:</label><br>
+            <textarea id="output-text" rows="10" cols="30" readonly>{{ linhas_processadas }}</textarea>
+            {% endif %}
         </div>
     </div>
 </body>

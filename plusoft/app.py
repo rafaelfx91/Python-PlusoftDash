@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for,session
 import mysql.connector
+from unidecode import unidecode
+import re
 from datetime import datetime
 import socket
 import os
@@ -19,7 +21,7 @@ def conectar_banco():
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="123",  # Atualize com a sua senha do MySQL
+            password="aaa",  # Atualize com a sua senha do MySQL
             database="campanhas"  # Nome do banco de dados
         )
         return db
@@ -128,10 +130,68 @@ def retornaNivel(acao):
 #0 - Solicitante
 #1 -
 #2 - Fabrica
-#3 
+#3 -
 #4 - admin
 #5 - Dev
 #
+
+
+#pagina do sas
+@app.route('/sas')
+def sas():
+    # Verifica se o usuário está logado
+    if 'logged_in' in session and session['logged_in']: 
+        nivel_acesso = session.get('nivel_acesso', None)  # Melhor usar .get() para evitar KeyError    
+        # Se o nível de acesso não for '0' (pode ser número ou string)
+        if nivel_acesso != '0' and nivel_acesso != 0:  # Comparação com '0' e 0 (string e número)
+            return render_template("sas.html", nivel=nivel_acesso)
+        else:
+            # Se o nível de acesso for '0', redireciona para o index
+            return redirect(url_for('index')) 
+    else:
+        # Caso o usuário não esteja logado, redireciona para o index
+        return redirect(url_for('index'))
+
+
+#trata o texto do sas fazendo uma tratativa 
+@app.route('/sas', methods=['POST'])
+def processar_texto():
+    # Captura o texto enviado no formulário
+    texto = request.form['input_text']  # 'input_text' é o nome do campo do formulário
+    
+    # Divide o texto por linha
+    linhas = texto.splitlines()
+    
+    # Processa cada linha
+    linhas_processadas = []
+    for linha in linhas:
+        # Remove espaços e substitui por "_"
+        linha_processada = linha.replace(" ", "_")
+
+        # Limita a 60 caracteres
+        linha_processada = linha_processada[:60]  # Limita a 60 caracteres
+        
+        
+        # Remove caracteres especiais (apenas permite letras, números e underscores)
+        linha_processada = re.sub(r'[^a-zA-Z0-9_]', '', linha_processada)
+        
+        # Remove acentos
+        linha_processada = unidecode(linha_processada)
+        
+        # Converte para maiúsculas
+        linha_processada = linha_processada.upper()
+        
+        # Remove os underscores no final da linha
+        linha_processada = linha_processada.rstrip('_')
+        
+        linhas_processadas.append(linha_processada)
+  
+    # Concatena as linhas processadas em uma string, separadas por nova linha
+    resultado = "\n".join(linhas_processadas)
+    
+    # Retorna o resultado para a mesma página com o texto processado
+    return render_template("sas.html", texto_original=texto, linhas_processadas=resultado)
+
 
 
 #roda de loggout

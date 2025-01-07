@@ -1,0 +1,45 @@
+  /* Estilo para os campos de texto */
+  input[type="text"], textarea {
+    width: 100%; /* Faz o campo ocupar toda a largura disponível */
+    padding: 15px 20px; /* Aumenta o espaçamento dentro do campo */
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 18px; /* Aumenta o tamanho da fonte */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f4f4f4;
+}
+
+/* Efeito quando o campo está em foco */
+input[type="text"]:focus, textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+    outline: none;
+}
+
+/* Estilo para a área de texto */
+textarea {
+    height: 200px; /* Aumenta a altura da área de texto */
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+/* Estilo para o botão, se houver */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px; /* Tamanho do botão */
+    transition: background-color 0.3s ease;
+}
+
+/* Efeito ao passar o mouse sobre o botão */
+button:hover {
+    background-color: #45a049;
+}
