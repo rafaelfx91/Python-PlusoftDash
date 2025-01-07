@@ -1,0 +1,119 @@
+        /* Estilos Gerais */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            /*background: url('{{ url_for('static', filename='../templates/images/fundo_login.jpg') }}') no-repeat center center fixed;*/
+            background-size: cover;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+
+
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* O menu agora ocupa 100% da largura */
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            /* Apenas espaçamento vertical */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            /* Itens centralizados horizontalmente */
+            align-items: center;
+            flex-wrap: wrap;
+            /* Ajusta os itens para caberem em telas menores */
+        }
+
+        .menu li {
+            margin-right: 20px;
+        }
+
+        .menu li:last-child {
+            margin-right: 0;
+            /* Remove o espaço à direita do último item */
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu a img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .central-container {
+            margin-top: 80px;
+            /* Espaço para evitar que o conteúdo fique atrás do menu fixo */
+            width: 90%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .user-info {
+            flex: 1;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .user-info h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .user-info p {
+            margin: 10px 0;
+            color: #555;
+            text-align: center;
+        }
+
+        .user-info p span {
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .menu ul {
+                flex-direction: column;
+                justify-content: center;
+                /* Itens centralizados em telas menores */
+            }
+
+            .menu li {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }

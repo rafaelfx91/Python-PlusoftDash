@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/templates/css/index.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('{{ url_for('static', filename='/images/fundo_login.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .central-container {
+            width: 70%;
+            height: 70%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .menu {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .menu li {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu a img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #0056b3;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .submenu li {
+            margin: 5px 0;
+        }
+
+        .menu li:hover .submenu {
+            display: block;
+        }
+
+        .user-info {
+            flex: 1;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .user-info h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .user-info p {
+            margin: 10px 0;
+            color: #555;
+            text-align: center;
+        }
+
+        .user-info p span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="central-container">
+        <div class="menu">
+            <ul>
+                <li><a href="#"><img src="{{ url_for('static', filename='/images/menu_inicio.png') }}" alt="">Inicio</a></li>
+                <li>
+                    <a href="#"><img src="{{ url_for('static', filename='/images/menu_sas.png') }}" alt="">SAS</a>
+                    <ul class="submenu">
+                        <li><a href="#">Gerar nome campanha</a></li>
+                        <li><a href="#">Gerar chamado</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><img src="{{ url_for('static', filename='/images/menu_sms.png') }}" alt="">SMS</a></li>
+                <li><a href="#"><img src="{{ url_for('static', filename='/images/menu_puhs.png') }}" alt="">PUHS</a></li>
+                <li><a href="#"><img src="{{ url_for('static', filename='/images/menu_html.png') }}" alt="">HTML</a></li>
+                <li><a href="#"><img src="{{ url_for('static', filename='/images/menu_rcs.png') }}" alt="">RCS</a></li>
+                <li>
+                    <a href="#"><img src="{{ url_for('static', filename='/images/menu_outros.png') }}" alt="">Outros</a>
+                    <ul class="submenu">
+                        <li><a href="#">Gerar Senha</a></li>
+                        <li><a href="#">Encriptar</a></li>
+                    </ul>
+                </li>
+                <li><a href="/logout"><img src="{{ url_for('static', filename='/images/menu_logout.png') }}" alt="">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="user-info">
+            <h2>Informações do Usuário</h2>
+            <p><span>Nome:</span> {{ nome }}</p>
+            <p><span>Email:</span> {{ email }}</p>
+            <p><span>Contato:</span> {{ contato }}</p>
+            <p><span>Nível:</span> {{ nivel }}</p>
+        </div>
+    </div>
+</body>
+</html>
