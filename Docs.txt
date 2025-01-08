@@ -84,7 +84,8 @@ pip install unidecode
 
 
 
-
+fazer nao limpar o nome encima  pagina sas
+e habilitar o menu sas depois quem faz o envio
 
 
 

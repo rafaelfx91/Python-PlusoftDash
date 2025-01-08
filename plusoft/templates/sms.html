@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/templates/css/home.css">
+    <link rel="stylesheet" href="/templates/css/sms.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: url('{{ url_for('static', filename='/images/fundo_login.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+<script>
+    function atualizarContador() {
+        const textarea = document.getElementById('msg_sms');
+        const contador = document.getElementById('contador');
+        const maxCaracteres = 150;
+        contador.textContent = `${textarea.value.length}/${maxCaracteres} caracteres`;
+    }
+
+    function validarFormulario() {
+        const textarea = document.getElementById('msg_sms');
+        if (textarea.value.length > 150) {
+            alert("A mensagem não pode exceder 150 caracteres.");
+            return false; // Impede o envio do formulário
+        }
+        return true; // Permite o envio
+    }
+</script>
+</head>
+
+<body>
+    <div class="menu">
+        <ul>
+            <li><a href="/home"><img src="{{ url_for('static', filename='/images/icones/inicio.png') }}"
+                        alt="">Inicio</a></li>
+            {% if nivel == 2 or nivel == 4 or nivel == 5 %}
+            <li>
+                <a href="/sas"><img src="{{ url_for('static', filename='/images/icones/sas.png') }}" alt="">SAS</a>
+            </li>
+            {% endif %}
+            <li><a href="/sms"><img src="{{ url_for('static', filename='/images/icones/sms.png') }}" alt="">SMS</a></li>
+            <li><a href="/push"><img src="{{ url_for('static', filename='/images/icones/push.png') }}" alt="">PUHS</a>
+            </li>
+            <li><a href="/html"><img src="{{ url_for('static', filename='/images/icones/email.png') }}" alt="">HTML</a>
+            </li>
+            <li><a href="/rcs"><img src="{{ url_for('static', filename='/images/icones/rcs.png') }}" alt="">RCS</a></li>
+            <li><a href="/logout"><img src="{{ url_for('static', filename='/images/icones/sair.png') }}"
+                        alt="">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="central-container">
+        <div class="user-info">
+            <div class="sms-interface">
+                <!-- Cabeçalho -->
+                <div class="sms-header">
+                    <img src="{{ url_for('static', filename='/images/claro_logo1.png') }}" alt="Claro"
+                        class="company-logo">
+                    <span class="company-name">Claro</span>
+                </div>
+                <!-- Corpo do SMS -->
+                <div class="sms-body">
+                    {% if msg %}
+                    <div class="chat-container">
+                        <!-- Mensagem recebida -->
+                        <div class="message other">
+                            <img src="{{ url_for('static', filename='/images/claro_logo1.png') }}" alt="Logo"
+                                class="message-logo">
+                            <div>
+                                <p>{{msg}}</p>
+                                <span class="timestamp">{{hora}}</span>
+                            </div>
+                        </div>
+                    </div><!--<div class="chat-container">-->
+                    {% endif %}              
+                    <form class="chat-input" action="{{ url_for('processa_msg') }}" method="POST">
+                        <textarea name="message" placeholder="Digite sua mensagem..." required id="msg_sms" 
+                        maxlength="150" oninput="atualizarContador()"></textarea>              
+                        <button type="submit">Enviar</button>
+                    </form>
+                    <br>
+                    <div id="contador">0 /150 caracteres</div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>

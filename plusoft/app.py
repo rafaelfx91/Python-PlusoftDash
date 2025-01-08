@@ -7,6 +7,7 @@ import socket
 import os
 import logging
 
+
 # Configure os logs no início do arquivo
 logging.basicConfig(level=logging.DEBUG)
 
@@ -21,7 +22,7 @@ def conectar_banco():
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="aaa",  # Atualize com a sua senha do MySQL
+            password="123",  # Atualize com a sua senha do MySQL
             database="campanhas"  # Nome do banco de dados
         )
         return db
@@ -185,12 +186,64 @@ def processar_texto():
         linha_processada = linha_processada.rstrip('_')
         
         linhas_processadas.append(linha_processada)
-  
+
     # Concatena as linhas processadas em uma string, separadas por nova linha
     resultado = "\n".join(linhas_processadas)
     
+    #como o menu usa esse atributo sera passado apenas para preencher no menu
+    nivel_acesso = session.get('nivel_acesso', None)
+
     # Retorna o resultado para a mesma página com o texto processado
-    return render_template("sas.html", texto_original=texto, linhas_processadas=resultado)
+    return render_template("sas.html", texto_original=texto
+                            ,linhas_processadas=resultado
+                            ,nivel=nivel_acesso)
+
+
+
+
+
+#pagina do sms
+@app.route('/sms')
+def sms():
+    # Verifica se o usuário está logado
+    if 'logged_in' in session and session['logged_in']: 
+        #nivel_acesso = session.get('nivel_acesso', None)
+        nivel_acesso = session['nivel_acesso'] 
+        return render_template("sms.html", nivel=nivel_acesso)
+    else:
+        # Caso o usuário não esteja logado, redireciona para o index
+        return redirect(url_for('index'))
+
+
+
+#prepara a msg 
+@app.route('/sms', methods=['POST'])
+def processa_msg():
+    nivel_acesso = session['nivel_acesso'] 
+    hora_atual = datetime.now().strftime('%H:%M')
+    
+    # Captura o texto enviado no formulário
+    texto = request.form['message']  # 'input_text' é o nome do campo do formulário
+
+    com_acentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç"
+    sem_acentos = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc"
+
+    # Substitui os caracteres com acentos pelos equivalentes sem acentos
+    for i in range(len(com_acentos)):
+        texto = texto.replace(com_acentos[i], sem_acentos[i])
+
+    # Remove caracteres especiais usando regex
+    texto = re.sub(r'[^a-zA-Z0-9 :+=/{}%.*,!?$@#-]+', '', texto)
+
+    return render_template("sms.html"
+                        ,msg=texto
+                        ,hora=hora_atual
+                        ,nivel=nivel_acesso)
+
+
+
+
+
 
 
 
